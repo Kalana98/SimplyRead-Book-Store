@@ -6,4 +6,8 @@ import lombok.Data;
 public class AuthRespondDTO {
 
     private String token;
+
+
+    public AuthRespondDTO(String token) {
+    }
 }
