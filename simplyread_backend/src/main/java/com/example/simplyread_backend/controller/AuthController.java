@@ -6,7 +6,7 @@ import com.example.simplyread_backend.dto.UserDTO;
 import com.example.simplyread_backend.entity.Role;
 import com.example.simplyread_backend.entity.User;
 import com.example.simplyread_backend.repository.UserRepository;
-import com.example.simplyread_backend.utils.JwtUtils;
+import com.example.simplyread_backend.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authManager;
-    private final JwtUtils jwtUtil;
+    private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -46,10 +45,9 @@ public class AuthController {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setEmail(dto.getEmail());
-        user.setPassword(passwordEncoder.encode("default123")); // or receive from DTO
-        user.setRole(Role.CUSTOMER);
+        user.setPassword(passwordEncoder.encode(dto.getPassword())); // or receive from DTO
+        user.setRole(dto.getRole() != null ? dto.getRole() : Role.CUSTOMER);
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
     }
 }
-

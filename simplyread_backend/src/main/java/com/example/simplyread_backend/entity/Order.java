@@ -25,9 +25,9 @@ public class Order {
 
     @ManyToMany
     @JoinTable(
-            name = "book_order",
-            joinColumns = @JoinColumn(name = "order_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id")
+            name = "order_books",
+            joinColumns = @JoinColumn(name = "order_id", referencedColumnName = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id", referencedColumnName = "book_id")
     )
     private List<Book> books;
 
